@@ -15,6 +15,13 @@ if INPUT_TOUCHSCREEN
 config TOUCHSCREEN_PROPERTIES
 	def_tristate INPUT
 	depends on INPUT
+config TOUCHSCREEN_CTS343_I2C
+    tristate "Advanced Silicon touchscreen"
+    depends on I2C
+    help
+      say y
+
+
 
 config TOUCHSCREEN_88PM860X
 	tristate "Marvell 88PM860x touchscreen"

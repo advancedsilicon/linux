@@ -1,0 +1,40 @@
+// Definitions for CTS343 Advanced Silicon Touch digitizer
+/dts-v1/;
+/plugin/;
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/interrupt-controller/irq.h>
+/ {
+	compatible = "brcm,bcm2711";
+
+	fragment@0 {
+		target = <&i2c_arm>;
+		__overlay__ {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			status = "okay";
+
+			i2c-hid-cooltouch@20 {
+				compatible = "cts343_i2c";
+				reg = <0x20>;
+				reset-gpio = <&gpio 23	GPIO_ACTIVE_HIGH>;
+				interrupt-parent = <&gpio>;
+				interrupts = <4 IRQ_TYPE_LEVEL_LOW>; /* active low level-sensitive. */
+				pinctrl-names = "default";
+				pinctrl-0 = <&ctsPins>;
+				wakeup-gpios = <4 IRQ_TYPE_LEVEL_LOW>;
+			};
+			
+		};
+	};
+
+	fragment@1 {
+		target = <&gpio>;
+		__overlay__ {
+			ctsPins: ctsPinsi {
+				brcm,pins = <4>;
+				brcm,function = <0>; /* in */
+				brcm,pull = <2>; /* BCM2835_PUD_UP : up pull */
+			};
+		};
+	};
+};
